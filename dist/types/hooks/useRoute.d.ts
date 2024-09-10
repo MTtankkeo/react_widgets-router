@@ -1,1 +1,2 @@
-export declare function useRoute(path: string, replace?: boolean): void;
+import { RouteOptions } from "../types";
+export declare function useRoute(path: string, options: RouteOptions): void;

@@ -1,4 +1,5 @@
+import { RouteOptions } from "../types";
 
-export function useRoute(path: string, replace: boolean = false) {
+export function useRoute(path: string, options: RouteOptions) {
     
 }
