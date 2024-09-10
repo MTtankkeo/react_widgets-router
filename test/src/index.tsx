@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import { Route, Router } from "@web-packages/react-widgets-router";
+import { Route, Router, useLocation } from "@web-packages/react-widgets-router";
 
 function Root() {
     return (
