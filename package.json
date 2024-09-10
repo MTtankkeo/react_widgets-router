@@ -1,0 +1,16 @@
+{
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/types/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.21.0",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "terser": "^5.31.6",
+    "typescript": "^5.5.4"
+  }
+}
