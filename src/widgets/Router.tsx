@@ -2,18 +2,20 @@ import { createContext, ReactElement, useContext } from "react";
 import { RouterContext } from "../modules/router_context";
 import { RouteProperties } from "../widgets/Route";
 import { LocationUtil } from "../utils/location";
+import { useLocation } from "../hooks/useLocation";
 
-const _RouterContext = createContext<RouterContext | null>(null);
+export const _RouterContext = createContext<RouterContext | null>(null);
 
-export function Router({location = LocationUtil.pathname, children}: {
+export function Router({location, children}: {
     location?: string;
     children: ReactElement<RouteProperties> | ReactElement<RouteProperties>[];
 }) {
-    const context = useContext(_RouterContext) ?? new RouterContext(location);
+    const context = useLocation();
     const element = Array.isArray(children) ? children : [children];
 
     let passedRoute = element.find(e => {
-        return LocationUtil.arrayOf(e.props.path)[0] == context.first;
+        return (LocationUtil.arrayOf(e.props.path)[0] == context.first && location == null)
+            || (LocationUtil.arrayOf(e.props.path)[0] == LocationUtil.arrayOf(location ?? "")[0] && location);
     });
 
     if (passedRoute) {
