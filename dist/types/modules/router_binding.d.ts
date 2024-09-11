@@ -11,8 +11,6 @@ export declare class RouterBinding {
     static get instance(): RouterBinding;
     /** This values defines listeners that is called when a location path updated. */
     protected listeners: RouterUpdateListener[];
-    /** This value defines whether a pop event must be ignored once. */
-    private needsIgnoreApiEvent;
     addListener(listener: RouterUpdateListener): void;
     removeListener(listener: RouterUpdateListener): void;
     /** Notifies staticly a given path to registered listeners. */
