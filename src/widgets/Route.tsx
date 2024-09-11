@@ -1,5 +1,6 @@
 import { FunctionComponent, ReactNode } from "react";
 
+/** Signature for the interface that defines properties of the `Route` component. */
 export interface RouteProperties {
     path: string;
     default?: boolean;

@@ -1,15 +1,22 @@
 import { HTMLAttributes, RefAttributes } from "react";
 import { RouterContext } from "./modules/router_context";
 
-export enum RoutingType {
+/** 
+ * Signature for the enumeration that defines the behavior
+ * types of routing within the application. (i.e. Browser)
+ */
+export enum RoutingBehavior { 
+    /** Routes are considered absolute, meaning they are interpreted from the root of the application. */
     absolute,
+    /** Routes are considered relative, meaning they are interpreted based on the current route's context. */
     relative,
 }
 
-export type RouteOptions = {
+/** Signature for the interface that defines options about the route behaviors. */
+export interface RouteOptions {
     context?: RouterContext;
     replace?: boolean;
-    routing?: RoutingType;
+    routing?: RoutingBehavior;
 }
 
 /** Signature for the types that defines a component of React/Preact. */

@@ -5,8 +5,14 @@ import { LocationUtil } from "../utils/location";
 import { useLocation } from "../hooks/useLocation";
 import { RouteSliver } from "./RouteSliver";
 
-/** This value defines  */
 export const _RouterContext = createContext<RouterContext | null>(null);
+
+/** Signature for the interface that defines properties of `Router` component. */
+export interface RouterProperties {
+    location?: string;
+    keepAlive?: boolean;
+    children: ReactElement<RouteProperties> | ReactElement<RouteProperties>[];
+}
 
 /**
  * ### Introduction
@@ -23,12 +29,19 @@ export const _RouterContext = createContext<RouterContext | null>(null);
  * 
  * See Also, If a `Route` has its own `keepAlive` setting, it takes priority over the `Router`'s `keepAlive`.
  * If no routes match the current location, it will display a default route if you provide one.
+ * 
+ * ### Example
+ * ```tsx
+ * return (
+ *     <Router>
+ *         <Route path="/example-1" component={ExamplePage1} />
+ *         <Route path="/example-2" component={ExamplePage2} />
+ *         <Route path="/example-3" component={ExamplePage3} />
+ *     </Router>
+ * )
+ * ```
  */
-export function Router({location, children}: {
-    location?: string;
-    keepAlive?: boolean;
-    children: ReactElement<RouteProperties> | ReactElement<RouteProperties>[];
-}) {
+export function Router({location, children}: RouterProperties) {
     // This values defines previously and currently rendered relative path of a component.
     const storage = useRef(new Set<string>());
     const context = useLocation();
