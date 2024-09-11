@@ -9,5 +9,5 @@ export declare class RouterBinding {
     addListener(listener: RouterUpdateListener): void;
     removeListener(listener: RouterUpdateListener): void;
     notifyListeners(newPath: string): void;
-    push(path: string): void;
+    route(path: string): void;
 }

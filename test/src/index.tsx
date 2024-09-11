@@ -1,10 +1,8 @@
 import { createRoot } from "react-dom/client";
-import { Route, Router, RouterBinding } from "@web-packages/react-widgets-router";
+import { Route, Router, RouterBinding, useRoute } from "@web-packages/react-widgets-router";
 import { useState } from "react";
 
 function Root() {
-    setTimeout(() => RouterBinding.instance.push("/sub"), 1000);
-
     return (
         <>
             <Router>
@@ -16,11 +14,18 @@ function Root() {
 }
 
 function Page1() {
-    return <h1>Hello, World! (Page1)</h1>
+    const route = useRoute();
+
+    return (
+        <>
+            <h1>Hello, World! (Page1)</h1>
+            <button onClick={() => route("/sub")}>go /sub</button>
+        </>
+    )
 }
 
 function Page2() {
-    const [count, setCount] = useState(0);
+    const route = useRoute();
 
     return (
         <>
@@ -36,6 +41,11 @@ function Page2() {
                 <h1>Scrollable 8</h1>
                 <h1>Scrollable 9</h1>
             </div>
+            <button onClick={() => route("/sub1")}>go to /sub1</button>
+            <Router>
+                <Route path="/sub1" element={<>sub1</>} />
+                <Route path="/sub2" element={<>sub2</>} />
+            </Router>
         </>
     )
 }

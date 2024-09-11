@@ -29,7 +29,7 @@ export class RouterBinding {
         this.listeners.forEach(l => l(newPath))
     }
 
-    push(path: string) {
+    route(path: string) {
         this.notifyListeners(path);
         history.pushState(null, "", path);
     }
