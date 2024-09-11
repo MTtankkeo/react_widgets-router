@@ -7,7 +7,7 @@ export class RouterContext {
     /** This values defines paths that can be consuming by router. */
     paths: string[] = [];
 
-    constructor(location: string) {
+    constructor(private location: string) {
         this.paths = LocationUtil.arrayOf(location);
     }
 
@@ -24,6 +24,14 @@ export class RouterContext {
     /** Gets a absolute path that is joined by string form. */
     get absPath() {
         return "/" + this.consumedPath.join("/") + this.paths.join("/");
+    }
+
+    /** Gets a clone of this router context. */
+    get clone() {
+        const self = new RouterContext(this.location);
+        self.paths = this.paths;
+        self.consumedPath = this.consumedPath;
+        return self;
     }
 
     /**

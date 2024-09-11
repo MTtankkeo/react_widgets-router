@@ -1,4 +1,5 @@
 export declare class RouterContext {
+    private location;
     /** This values defines consumed paths for defining an absolute path. */
     consumedPath: string[];
     /** This values defines paths that can be consuming by router. */
@@ -10,6 +11,8 @@ export declare class RouterContext {
     get relPath(): string;
     /** Gets a absolute path that is joined by string form. */
     get absPath(): string;
+    /** Gets a clone of this router context. */
+    get clone(): RouterContext;
     /**
      * Consume a location path that can be consumed currently,
      * And return it that is remained paths.

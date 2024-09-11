@@ -1,4 +1,4 @@
-import { createContext, ReactElement, useRef } from "react";
+import { createContext, memo, ReactElement, useRef } from "react";
 import { RouterContext } from "../modules/router_context";
 import { RouteProperties } from "../widgets/Route";
 import { LocationUtil } from "../utils/location";
@@ -21,7 +21,7 @@ export interface RouterProperties {
  * 
  * It looks at the `Route` components you provide as children and checks if their `path`
  * matches the current location. If there is a match, it displays the component for that route.
- *
+ * 
  * ### About Keep Alive
  * This `keepAlive` property determines whether previous routes remain in memory after navigating away.
  * When `keepAlive` is `true`, the elements of the previous route are not removed from memory
@@ -43,7 +43,7 @@ export interface RouterProperties {
  */
 export function Router({location, children}: RouterProperties) {
     // This values defines previously and currently rendered relative path of a component.
-    const storage = useRef(new Set<string>());
+    const storage = useRef(new Map<string, {context: RouterContext}>());
     const context = useLocation();
     const element = Array.isArray(children) ? children : [children];
 
@@ -60,23 +60,25 @@ export function Router({location, children}: RouterProperties) {
     // redefinding to a component that can be rendered by default.
     passedRoute ??= element.find(e => e.props.default);
 
-    if (passedRoute && storage.current.has(passedRoute.props.path) == false) {
-        storage.current.add(passedRoute.props.path);
+    if (passedRoute) {
+        storage.current.set(passedRoute.props.path, {context: context.clone});
     }
 
-    return (
-        <_RouterContext.Provider value={context}>
-            {
-                Array.from(storage.current).map((path, index) => {
-                    // Whether a given path corresponds to a current location path.
-                    const isCurrent = passedRoute?.props.path == path;
+    return (<>
+        {
+            Array.from(storage.current).map(([path, state], index) => {
+                // Whether a given path corresponds to a current location path.
+                const isCurrent = passedRoute?.props.path == path;
 
-                    // A component corresponds to a given path.
-                    const route = element.find((e) => e.props.path == path);
+                // A component corresponds to a given path.
+                const route = element.find((e) => e.props.path == path);
 
-                    return <RouteSliver key={path} active={isCurrent} first={index == 0} route={route} />;
-                })
-            }
-        </_RouterContext.Provider>
-    )
+                return (
+                    <_RouterContext.Provider value={state.context.clone}>
+                        <RouteSliver key={path} active={isCurrent} first={index == 0} route={route} />
+                    </_RouterContext.Provider>
+                )
+            })
+        }
+    </>)
 }
