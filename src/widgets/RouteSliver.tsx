@@ -64,6 +64,7 @@ export function RouteSliver({route, active, first}: {
 addEventListener("DOMContentLoaded", () => {
     const sheet = new CSSStyleSheet();
 
+    // This CSS selector is selecting a router-sliver element.
     sheet.insertRule(`
         route-sliver {
             position: absolute;
@@ -72,10 +73,12 @@ addEventListener("DOMContentLoaded", () => {
         }
     `);
 
+    // This CSS selector is selecting the parent of a route-sliver.
     sheet.insertRule(`
         *:has(> route-sliver) {
             position: relative;
-            top: 0px; left: 0px;
+            top: 0px;
+            left: 0px;
         }
     `);
 
