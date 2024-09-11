@@ -65,7 +65,9 @@ export class RouterBinding {
      */
     move(path: string) {
         if (location.pathname != path) {
-            history.replaceState({}, "", path);
+            this.needsIgnoreApiEvent = true;
+            history.back();
+            history.pushState({}, "", path);
             this.notifyListeners(location.pathname);
         }
     }
