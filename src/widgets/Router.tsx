@@ -1,9 +1,8 @@
-import { createContext, ReactElement, useLayoutEffect } from "react";
+import { createContext, ReactElement } from "react";
 import { RouterContext } from "../modules/router_context";
 import { RouteProperties } from "../widgets/Route";
 import { LocationUtil } from "../utils/location";
 import { useLocation } from "../hooks/useLocation";
-import { RouterBinding } from "../modules/router_binding";
 
 export const _RouterContext = createContext<RouterContext | null>(null);
 
