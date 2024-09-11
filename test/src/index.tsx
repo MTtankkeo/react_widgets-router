@@ -1,7 +1,9 @@
 import { createRoot } from "react-dom/client";
-import { Route, Router, useLocation } from "@web-packages/react-widgets-router";
+import { Route, Router, RouterBinding } from "@web-packages/react-widgets-router";
 
 function Root() {
+    setTimeout(() => RouterBinding.instance.push("/sub/sub2"), 1000);
+
     return (
         <Router>
             <Route path="/"    component={Page1} />

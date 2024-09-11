@@ -1,8 +1,9 @@
-import { createContext, ReactElement, useContext } from "react";
+import { createContext, ReactElement, useLayoutEffect } from "react";
 import { RouterContext } from "../modules/router_context";
 import { RouteProperties } from "../widgets/Route";
 import { LocationUtil } from "../utils/location";
 import { useLocation } from "../hooks/useLocation";
+import { RouterBinding } from "../modules/router_binding";
 
 export const _RouterContext = createContext<RouterContext | null>(null);
 
@@ -10,8 +11,11 @@ export function Router({location, children}: {
     location?: string;
     children: ReactElement<RouteProperties> | ReactElement<RouteProperties>[];
 }) {
+    // This values defines previously and currently rendered relative path of a component.
+    const history = new Set<string>();
     const context = useLocation();
     const element = Array.isArray(children) ? children : [children];
+    const relPath = context.relPath;
 
     let passedRoute = element.find(e => {
         return (LocationUtil.arrayOf(e.props.path)[0] == context.first && location == null)
@@ -27,11 +31,15 @@ export function Router({location, children}: {
     passedRoute ??= element.find(e => e.props.default);
 
     // This value defines a component that must be rendered.
-    const RenderRoute = passedRoute?.props.component;
+    const RenderComponent = passedRoute?.props.component;
+
+    if (history.has(relPath) == false) {
+        history.add(relPath);
+    }
 
     return (
         <_RouterContext.Provider value={context}>
-            {passedRoute?.props.element ?? (RenderRoute ? <RenderRoute /> : <></>)}
+            {passedRoute?.props.element ?? (RenderComponent ? <RenderComponent /> : <></>)}
         </_RouterContext.Provider>
     )
 }
