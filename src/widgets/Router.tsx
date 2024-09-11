@@ -1,4 +1,4 @@
-import { createContext, ReactElement } from "react";
+import { createContext, ReactElement, useRef } from "react";
 import { RouterContext } from "../modules/router_context";
 import { RouteProperties } from "../widgets/Route";
 import { LocationUtil } from "../utils/location";
@@ -11,7 +11,7 @@ export function Router({location, children}: {
     children: ReactElement<RouteProperties> | ReactElement<RouteProperties>[];
 }) {
     // This values defines previously and currently rendered relative path of a component.
-    const history = new Set<string>();
+    const history = useRef(new Set<string>());
     const context = useLocation();
     const element = Array.isArray(children) ? children : [children];
     const relPath = context.relPath;
@@ -32,8 +32,8 @@ export function Router({location, children}: {
     // This value defines a component that must be rendered.
     const RenderComponent = passedRoute?.props.component;
 
-    if (history.has(relPath) == false) {
-        history.add(relPath);
+    if (history.current.has(relPath) == false) {
+        history.current.add(relPath);
     }
 
     return (
