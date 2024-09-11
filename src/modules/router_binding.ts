@@ -10,7 +10,15 @@ export type RouterUpdateListener = (newPath: string) => void;
 export class RouterBinding {
     private static _instance: RouterBinding;
     private constructor() {
-        window.onpopstate = (_) => this.notifyListeners(location.pathname);
+        window.onpopstate = (_) => {
+            if (this.needsIgnoreApiEvent) {
+                this.needsIgnoreApiEvent = false;
+                return;
+            }
+
+            // Notifies staticly routers to rebuild for pop-event.
+            this.notifyListeners(location.pathname);
+        }
     }
 
     static get instance() {
@@ -19,6 +27,9 @@ export class RouterBinding {
 
     /** This values defines listeners that is called when a location path updated. */
     protected listeners: RouterUpdateListener[] = [];
+
+    /** This value defines whether a pop event must be ignored once. */
+    private needsIgnoreApiEvent = false;
 
     addListener(listener: RouterUpdateListener) {
         console.assert(!this.listeners.includes(listener), "Already exists a given listener in the context.");
@@ -54,6 +65,7 @@ export class RouterBinding {
      */
     move(path: string) {
         if (location.pathname != path) {
+            this.needsIgnoreApiEvent = true;
             history.back();
             history.pushState({}, "", path);
             this.notifyListeners(location.pathname);
