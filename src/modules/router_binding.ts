@@ -1,10 +1,12 @@
 
 /** Signature for the callback function that is called when a location path updated. */
-export type RouterUpdateListener = (oldPath: string, newPath: string) => void;
+export type RouterUpdateListener = (newPath: string) => void;
 
 export class RouterBinding {
     private static _instance: RouterBinding;
-    private constructor() {}
+    private constructor() {
+        window.onpopstate = (_) => this.notifyListeners(location.pathname);
+    }
 
     static get instance() {
         return this._instance ?? (this._instance = new RouterBinding());
@@ -23,20 +25,12 @@ export class RouterBinding {
         this.listeners = this.listeners.filter(l => l != listener);
     }
 
-    notifyListeners(oldPath: string, newPath: string) {
-        this.listeners.forEach(l => l(oldPath, newPath))
+    notifyListeners(newPath: string) {
+        this.listeners.forEach(l => l(newPath))
     }
 
     push(path: string) {
-        const oldPath = location.pathname;
-        const newPath = path;
-        if (oldPath != newPath) {
-            this.notifyListeners(oldPath, newPath);
-            history.pushState(null, "", newPath);
-        }
-    }
-
-    pop() {
-
+        this.notifyListeners(path);
+        history.pushState(null, "", path);
     }
 }

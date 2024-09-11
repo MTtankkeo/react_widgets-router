@@ -3,6 +3,7 @@ import { RouterContext } from "../modules/router_context";
 import { RouteProperties } from "../widgets/Route";
 import { LocationUtil } from "../utils/location";
 import { useLocation } from "../hooks/useLocation";
+import { RenderRoute } from "./RenderRoute";
 
 export const _RouterContext = createContext<RouterContext | null>(null);
 
@@ -11,10 +12,9 @@ export function Router({location, children}: {
     children: ReactElement<RouteProperties> | ReactElement<RouteProperties>[];
 }) {
     // This values defines previously and currently rendered relative path of a component.
-    const history = useRef(new Set<string>());
+    const storage = useRef(new Set<string>());
     const context = useLocation();
     const element = Array.isArray(children) ? children : [children];
-    const relPath = context.relPath;
 
     let passedRoute = element.find(e => {
         return (LocationUtil.arrayOf(e.props.path)[0] == context.first && location == null)
@@ -29,16 +29,23 @@ export function Router({location, children}: {
     // redefinding to a component that can be rendered by default.
     passedRoute ??= element.find(e => e.props.default);
 
-    // This value defines a component that must be rendered.
-    const RenderComponent = passedRoute?.props.component;
-
-    if (history.current.has(relPath) == false) {
-        history.current.add(relPath);
+    if (passedRoute && storage.current.has(passedRoute.props.path) == false) {
+        storage.current.add(passedRoute.props.path);
     }
 
     return (
         <_RouterContext.Provider value={context}>
-            {passedRoute?.props.element ?? (RenderComponent ? <RenderComponent /> : <></>)}
+            {
+                Array.from(storage.current).map(path => {
+                    // Whether a given path corresponds to a current location path.
+                    const isCurrent = passedRoute?.props.path == path;
+
+                    // A component corresponds to a given path.
+                    const route = element.find((e) => e.props.path == path);
+
+                    return <RenderRoute key={path} active={isCurrent} route={route} />;
+                })
+            }
         </_RouterContext.Provider>
     )
 }

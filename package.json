@@ -1,5 +1,5 @@
 {
-  "name": "@web-packages/react-widgets-router",
+  "name": "react-widgets-router",
   "main": "./dist/index.umd.js",
   "module": "./dist/index.esm.js",
   "types": "./dist/types/index.d.ts",

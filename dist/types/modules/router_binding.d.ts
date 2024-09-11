@@ -1,5 +1,5 @@
 /** Signature for the callback function that is called when a location path updated. */
-export type RouterUpdateListener = (oldPath: string, newPath: string) => void;
+export type RouterUpdateListener = (newPath: string) => void;
 export declare class RouterBinding {
     private static _instance;
     private constructor();
@@ -8,7 +8,6 @@ export declare class RouterBinding {
     listeners: RouterUpdateListener[];
     addListener(listener: RouterUpdateListener): void;
     removeListener(listener: RouterUpdateListener): void;
-    notifyListeners(oldPath: string, newPath: string): void;
+    notifyListeners(newPath: string): void;
     push(path: string): void;
-    pop(): void;
 }

@@ -10,7 +10,7 @@ export function useLocation() {
         const [location, setLocation] = useState(window.location.pathname);
 
         context = new RouterContext(location);
-        binding.addListener((_, newPath) => {
+        binding.addListener((newPath) => {
             setLocation(newPath);
         });
     }
