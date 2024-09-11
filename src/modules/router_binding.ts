@@ -29,8 +29,19 @@ export class RouterBinding {
         this.listeners.forEach(l => l(newPath))
     }
 
-    route(path: string) {
-        this.notifyListeners(path);
-        history.pushState(null, "", path);
+    push(path: string) {
+        if (location.pathname != path) {
+            this.notifyListeners(path), history.pushState(null, "", path);
+        }
+    }
+
+    replace(path: string) {
+        if (location.pathname != path) {
+            this.notifyListeners(path), history.replaceState({}, "", path);
+        }
+    }
+
+    pop(path: string) {
+        this.notifyListeners(path), history.back();
     }
 }

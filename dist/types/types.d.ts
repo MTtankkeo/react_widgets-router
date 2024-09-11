@@ -5,9 +5,9 @@ export declare enum RoutingType {
     relative = 1
 }
 export type RouteOptions = {
-    context: RouterContext;
-    replace: boolean;
-    routing: RoutingType;
+    context?: RouterContext;
+    replace?: boolean;
+    routing?: RoutingType;
 };
 /** Signature for the types that defines a component of React/Preact. */
 type JSXCustomElement<T extends HTMLElement> = HTMLAttributes<T> & RefAttributes<T>;

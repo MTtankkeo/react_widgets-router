@@ -7,9 +7,9 @@ export enum RoutingType {
 }
 
 export type RouteOptions = {
-    context: RouterContext;
-    replace: boolean;
-    routing: RoutingType;
+    context?: RouterContext;
+    replace?: boolean;
+    routing?: RoutingType;
 }
 
 /** Signature for the types that defines a component of React/Preact. */
