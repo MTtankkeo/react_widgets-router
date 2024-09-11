@@ -6,10 +6,12 @@ function Root() {
     setTimeout(() => RouterBinding.instance.push("/sub"), 1000);
 
     return (
-        <Router>
-            <Route path="/"    component={Page1} />
-            <Route path="/sub" component={Page2} />
-        </Router>
+        <>
+            <Router>
+                <Route path="/"    component={Page1} />
+                <Route path="/sub" component={Page2} />
+            </Router>
+        </>
     )
 }
 

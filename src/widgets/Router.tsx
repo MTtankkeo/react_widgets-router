@@ -3,7 +3,7 @@ import { RouterContext } from "../modules/router_context";
 import { RouteProperties } from "../widgets/Route";
 import { LocationUtil } from "../utils/location";
 import { useLocation } from "../hooks/useLocation";
-import { RenderRoute } from "./RenderRoute";
+import { RouteSliver } from "./RouteSliver";
 
 export const _RouterContext = createContext<RouterContext | null>(null);
 
@@ -36,14 +36,14 @@ export function Router({location, children}: {
     return (
         <_RouterContext.Provider value={context}>
             {
-                Array.from(storage.current).map(path => {
+                Array.from(storage.current).map((path, index) => {
                     // Whether a given path corresponds to a current location path.
                     const isCurrent = passedRoute?.props.path == path;
 
                     // A component corresponds to a given path.
                     const route = element.find((e) => e.props.path == path);
 
-                    return <RenderRoute key={path} active={isCurrent} route={route} />;
+                    return <RouteSliver key={path} active={isCurrent} first={index == 0} route={route} />;
                 })
             }
         </_RouterContext.Provider>

@@ -7,6 +7,22 @@
     <title>Document</title>
 </head>
 <body>
+    <style>
+        @keyframes router-fadein {
+            0%   { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes router-fadeout {
+            0%   { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        :root {
+            --router-fadein-keyframe: "router-fadein";
+            --router-fadeout-keyframe: "router-fadeout";
+        }
+    </style>
     <div id="render"></div>
 </body>
 </html>

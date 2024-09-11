@@ -18,7 +18,7 @@ type JSXCustomElement<T extends HTMLElement> = HTMLAttributes<T> & RefAttributes
 declare module "react/jsx-runtime" {
     namespace JSX {
         interface IntrinsicElements {
-            "render-route": JSXCustomElement<HTMLDivElement>;
+            "route-sliver": JSXCustomElement<HTMLDivElement>;
         }
     }
 }
