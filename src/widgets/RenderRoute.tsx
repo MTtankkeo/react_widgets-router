@@ -8,6 +8,14 @@ export function RenderRoute({route, active}: {route?: ReactElement<RouteProperti
     const Render = RenderElement ?? (RenderComponent ? <RenderComponent /> : <></>);
 
     return (
-        <div style={{display: active ? "contents" : "none"}}>{Render}</div>
+        <render-route style={{display: active ? "contents" : "none"}}>{Render}</render-route>
     );
 }
+
+addEventListener("DOMContentLoaded", () => {
+    const sheet = new CSSStyleSheet();
+    sheet.insertRule("render-route { position: absolute; }");
+    sheet.insertRule("*:has(> render-route) { position: relative; }");
+
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+});
