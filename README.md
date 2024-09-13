@@ -9,7 +9,7 @@
           </tr>
         </tbody>
     </table>
-    You need to learn more about the <a href="https://github.com/react-widgets/react_widgets">React Widgets</a> package!
+    You need to learn more about the <a href="https://github.com/react-widgets/react_widgets">react-widgets</a> package!
 </div>
 
 # Introduction
