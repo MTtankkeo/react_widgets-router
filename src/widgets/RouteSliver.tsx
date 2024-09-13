@@ -17,8 +17,6 @@ export function RouteSliver({route, active, first}: {
     useLayoutEffect(() => {
         const sliver = sliverRef.current;
 
-        // console.log(route?.props.path, active);
-
         // When an element should not be rendered initially,
         // there is no need to consider fade-in or fade-out animation tasks.
         if (sliver && first && activeRef.current == active)  {

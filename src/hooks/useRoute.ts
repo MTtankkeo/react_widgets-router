@@ -11,9 +11,13 @@ export function useRoute(options?: RouteOptions) {
         const routingPath = path.startsWith("/") ? path.slice(1) : path;
 
         if (routingType == RoutingBehavior.absolute) {
-            RouterBinding.instance.push(path);
+            options?.replace ?? false
+                ? RouterBinding.instance.move(path)
+                : RouterBinding.instance.push(path);
         } else {
-            RouterBinding.instance.push("/" + [...context.consumedPath, routingPath].join("/"));
+            options?.replace ?? false
+                ? RouterBinding.instance.move("/" + [...context.consumedPath, routingPath].join("/"))
+                : RouterBinding.instance.push("/" + [...context.consumedPath, routingPath].join("/"));
         }
     }
 

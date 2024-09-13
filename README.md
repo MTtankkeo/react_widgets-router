@@ -5,7 +5,7 @@
         <thead>
           <tr>
             <th>Version</th>
-            <th>v1.0.0-dev</th>
+            <th>v1.0.0-beta1</th>
           </tr>
         </tbody>
     </table>
@@ -14,18 +14,21 @@
 # Introduction
 This package is a router that provides transition animations and fully preserves the state of previous elements, offering an experience close to a Web standard API.
 
+> __See Also__<br>
+> The `keep-alive` feature is enabled by default and documented, but the options for keep-alive have not yet been made configurable or customizable.
+
 ## Usage
 This below codes are a simple example of the basic usage of this package.
 
 ```ts
- * return (
- *     <Router keepAlive={false}>
- *         <Route path="/example-1" component={ExamplePage1} keepAlive={true} />
- *         <Route path="/example-2" component={ExamplePage2} keepAlive={true} />
- *         <Route path="/example-3" element={<ExamplePage3 />} />
- *         <Route path="/example-4" element={<>Hello, World!</>} />
- *     </Router>
- * )
+return (
+    <Router keepAlive={false}>
+        <Route path="/example-1" component={ExamplePage1} keepAlive={true} />
+        <Route path="/example-2" component={ExamplePage2} keepAlive={true} />
+        <Route path="/example-3" element={<ExamplePage3 />} />
+        <Route path="/example-4" element={<>Hello, World!</>} />
+    </Router>
+)
 ```
 
 ### Without hooks and globally
@@ -40,6 +43,8 @@ function ExamplePage1() {
 ```
 
 ### With hooks and locally
+You need to keep that in mind about this feature is an experimental stage.
+
 ```tsx
 function ExamplePage2() {
     const route = useRoute();
@@ -51,3 +56,11 @@ function ExamplePage2() {
     )
 }
 ```
+
+## The Properties of CSS
+| Name | Description | Default |
+| ---- | ----------- | ---- |
+| --router-fadein-keyframe | This variable is animation name of a fade-in transition keyframe for this router. | None
+| --router-fadein-duration | This variable is animation duration of a fade-in transition for this router. | 0.3s
+| --router-fadeout-keyframe | This variable is animation name of a fade-out transition keyframe for this router. | None
+| --router-fadeout-duration | This variable is animation duration of a fade-out transition for this router. | 0.3s
