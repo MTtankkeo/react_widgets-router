@@ -5,8 +5,8 @@ import { RouterBinding } from "../modules/router_binding";
 
 /**
  * This hook is used to reference the currently uniquely defined pure router context.
- * Therefore, it is used to consume paths, not for the purpose of referencing
- * absolute or relative paths.
+ * Therefore, it is used not only for referencing absolute or relative paths
+ * but also for consuming paths.
  */
 export function useLocation() {
     let context = useContext(_RouterContext);
