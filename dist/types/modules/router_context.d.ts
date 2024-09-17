@@ -1,7 +1,7 @@
 export declare class RouterContext {
     private location;
     /** This values defines consumed paths for defining an absolute path. */
-    consumedPath: string[];
+    consumedPaths: string[];
     /** This values defines paths that can be consuming by router. */
     paths: string[];
     constructor(location: string);

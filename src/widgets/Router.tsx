@@ -1,10 +1,9 @@
-import { createContext, memo, ReactElement, useRef } from "react";
+import { createContext, ReactElement, useRef, useLayoutEffect } from "react";
 import { RouterContext } from "../modules/router_context";
 import { RouteProperties } from "../widgets/Route";
 import { LocationUtil } from "../utils/location";
-import { useLocation } from "../hooks/useLocation";
 import { RouteSliver } from "./RouteSliver";
-import { useRouterContext } from "../hooks/useRouterContext";
+import { useLocation } from "../hooks/useLocation";
 
 export const _RouterContext = createContext<RouterContext | null>(null);
 
@@ -45,7 +44,7 @@ export interface RouterProperties {
 export function Router({location, children}: RouterProperties) {
     // This values defines previously and currently rendered relative path of a component.
     const storage = useRef(new Map<string, {context: RouterContext}>());
-    const context = useRouterContext();
+    const context = useLocation();
     const element = Array.isArray(children) ? children : [children];
 
     let passedRoute = element.find(e => {
@@ -53,15 +52,15 @@ export function Router({location, children}: RouterProperties) {
             || (LocationUtil.arrayOf(e.props.path)[0] == LocationUtil.arrayOf(location ?? "")[0] && location);
     });
 
-    if (passedRoute) {
-        context.paths.length != 0 && context.consume();
-    }
-
     // If a component to be rendered cannot be defined, it will be
     // redefinding to a component that can be rendered by default.
     passedRoute ??= element.find(e => e.props.default);
 
     if (passedRoute) {
+        if (context.paths.length != 0) {
+            context.consume();
+        }
+
         storage.current.set(passedRoute.props.path, {context: context.clone});
     }
 
@@ -75,8 +74,8 @@ export function Router({location, children}: RouterProperties) {
                 const route = element.find((e) => e.props.path == path);
 
                 return (
-                    <_RouterContext.Provider value={state.context.clone}>
-                        <RouteSliver key={path} active={isCurrent} first={index == 0} route={route} />
+                    <_RouterContext.Provider key={path} value={state.context.clone}>
+                        <RouteSliver active={isCurrent} first={index == 0} route={route} />
                     </_RouterContext.Provider>
                 )
             })

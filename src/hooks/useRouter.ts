@@ -16,8 +16,8 @@ export function useRouter(options?: RouteOptions) {
                 : RouterBinding.instance.push(path);
         } else {
             options?.replace ?? false
-                ? RouterBinding.instance.move("/" + [...context.consumedPath, routingPath].join("/"))
-                : RouterBinding.instance.push("/" + [...context.consumedPath, routingPath].join("/"));
+                ? RouterBinding.instance.move("/" + [...context.consumedPaths, routingPath].join("/"))
+                : RouterBinding.instance.push("/" + [...context.consumedPaths, routingPath].join("/"));
         }
     }
 

@@ -2,7 +2,7 @@ import { LocationUtil } from "../utils/location";
 
 export class RouterContext {
     /** This values defines consumed paths for defining an absolute path. */
-    consumedPath: string[] = [];
+    consumedPaths: string[] = [];
 
     /** This values defines paths that can be consuming by router. */
     paths: string[] = [];
@@ -23,14 +23,14 @@ export class RouterContext {
 
     /** Gets a absolute path that is joined by string form. */
     get absPath() {
-        return "/" + this.consumedPath.join("/") + this.paths.join("/");
+        return "/" + [...this.consumedPaths, ...this.paths].join("/");
     }
 
     /** Gets a clone of this router context. */
     get clone() {
         const self = new RouterContext(this.location);
-        self.paths = this.paths;
-        self.consumedPath = this.consumedPath;
+        self.paths = this.paths.slice();
+        self.consumedPaths = this.consumedPaths.slice();
         return self;
     }
 
@@ -42,7 +42,7 @@ export class RouterContext {
         console.assert(this.paths.length != 0, "Not exists a path that can be consumed.");
 
         if (this.paths[0]) {
-            this.consumedPath.push(this.paths[0]);
+            this.consumedPaths.push(this.paths[0]);
         }
 
         // Returns a remaining location path.
