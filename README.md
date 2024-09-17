@@ -5,7 +5,7 @@
         <thead>
           <tr>
             <th>Version</th>
-            <th>v1.0.0-beta1</th>
+            <th>v1.0.0-beta2</th>
           </tr>
         </tbody>
     </table>
@@ -16,6 +16,8 @@ This package is a router that provides transition animations and fully preserves
 
 > __See Also__<br>
 > The `keep-alive` feature is enabled by default and documented, but the options for keep-alive have not yet been made configurable or customizable.
+
+> See Also, If you want the change-log by version for this package. refer to [Change Log](CHANGELOG.md) for details.
 
 ## Usage
 This below codes are a simple example of the basic usage of this package.

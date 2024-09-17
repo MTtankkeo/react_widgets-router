@@ -4,6 +4,7 @@ import { RouteProperties } from "../widgets/Route";
 import { LocationUtil } from "../utils/location";
 import { useLocation } from "../hooks/useLocation";
 import { RouteSliver } from "./RouteSliver";
+import { useRouterContext } from "../hooks/useRouterContext";
 
 export const _RouterContext = createContext<RouterContext | null>(null);
 
@@ -44,7 +45,7 @@ export interface RouterProperties {
 export function Router({location, children}: RouterProperties) {
     // This values defines previously and currently rendered relative path of a component.
     const storage = useRef(new Map<string, {context: RouterContext}>());
-    const context = useLocation();
+    const context = useRouterContext();
     const element = Array.isArray(children) ? children : [children];
 
     let passedRoute = element.find(e => {

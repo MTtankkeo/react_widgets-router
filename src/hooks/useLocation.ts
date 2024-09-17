@@ -1,19 +1,19 @@
-import { useContext, useState } from "react";
+import { useContext, useRef } from "react";
 import { _RouterContext } from "../widgets/Router";
 import { RouterContext } from "../modules/router_context";
-import { RouterBinding } from "../modules/router_binding";
 
+/**
+ * This hook used for a purpose of a user simply referring to
+ * absolute or relative paths in stateful components.
+ */
 export function useLocation() {
-    let context = useContext(_RouterContext);
-    let binding = RouterBinding.instance;
-    if (context == null) {
-        const [location, setLocation] = useState(window.location.pathname);
+    const context = useContext(_RouterContext) ?? new RouterContext(window.location.pathname);
+    const contextRef = useRef(context);
 
-        context = new RouterContext(location);
-        binding.addListener((newPath) => {
-            setLocation(newPath);
-        });
+    // A upper-level router context is not updating.
+    if (contextRef.current === context) { 
+        return contextRef.current.clone;
     }
 
-    return context;
+    return contextRef.current = context;
 }
