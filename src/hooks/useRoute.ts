@@ -2,7 +2,7 @@ import { RouterBinding } from "../modules/router_binding";
 import { RouteOptions, RoutingBehavior } from "../types";
 import { useLocation } from "./useLocation";
 
-export function useRouter(options?: RouteOptions) {
+export function useRoute(options?: RouteOptions) {
     const context = options?.context ?? useLocation();
 
     // By calling this callback function, we can define a path relatively.

@@ -3,4 +3,4 @@ export { Route, RouteProperties } from "./widgets/Route";
 export { RouterContext } from "./modules/router_context";
 export { RouterBinding, RouterUpdateListener } from "./modules/router_binding";
 export { useLocation } from "./hooks/useLocation";
-export { useRouter } from "./hooks/useRouter";
+export { useRoute } from "./hooks/useRoute";
