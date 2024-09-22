@@ -1,10 +1,11 @@
-import { createContext, ReactElement, useRef, useLayoutEffect } from "react";
+import { createContext, ReactElement, useRef } from "react";
 import { RouterContext } from "../modules/router_context";
 import { RouteProperties } from "../widgets/Route";
 import { LocationUtil } from "../utils/location";
 import { RouteSliver } from "./RouteSliver";
 import { useLocation } from "../hooks/useLocation";
 
+/** This context provides a router context from high-level to low-level. */
 export const _RouterContext = createContext<RouterContext | null>(null);
 
 /** Signature for the interface that defines properties of `Router` component. */
@@ -54,14 +55,21 @@ export function Router({location, children}: RouterProperties) {
 
     // If a component to be rendered cannot be defined, it will be
     // redefinding to a component that can be rendered by default.
-    passedRoute ??= element.find(e => e.props.default);
+    passedRoute ??= element.find(e => e.props.default || e.props.path == "*");
 
+    // A router is considered a lowest-level router when there
+    // is no path that can be consumed.
     if (passedRoute) {
         if (context.paths.length != 0) {
             context.consume();
         }
 
         storage.current.set(passedRoute.props.path, {context: context.clone});
+    } else {
+        throw new Error(
+            "Route corresponding to a given path was not found. Therefore, You need to " +
+            "define a `default` attribute to allow the router to specify a default `Route`."
+        );
     }
 
     return (<>

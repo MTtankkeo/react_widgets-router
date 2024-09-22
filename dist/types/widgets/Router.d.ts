@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { RouterContext } from "../modules/router_context";
 import { RouteProperties } from "../widgets/Route";
+/** This context provides a router context from high-level to low-level. */
 export declare const _RouterContext: import("react").Context<RouterContext | null>;
 /** Signature for the interface that defines properties of `Router` component. */
 export interface RouterProperties {

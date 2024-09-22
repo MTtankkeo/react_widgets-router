@@ -27,12 +27,14 @@ The image below is a simple use gif of [Quark Icons](https://quarkicons.com/) an
 ## Usage
 This below codes are a simple example of the basic usage of this package.
 
+> See Also, Instead of setting the `default` attribute to true, you can also set the path attribute to `*`.
+
 ```ts
 return (
     <Router keepAlive={false}>
         <Route path="/example-1" component={ExamplePage1} keepAlive={true} />
         <Route path="/example-2" component={ExamplePage2} keepAlive={true} />
-        <Route path="/example-3" element={<ExamplePage3 />} />
+        <Route path="/example-3" element={<ExamplePage3 />} default={true} />
         <Route path="/example-4" element={<>Hello, World!</>} />
     </Router>
 )
