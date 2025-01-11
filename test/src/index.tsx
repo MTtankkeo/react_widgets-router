@@ -6,7 +6,7 @@ function Root() {
     return (
         <Router>
             <Route path="/"    element={<button onClick={() => RouterBinding.instance.push("/app")}>Root</button>} />
-            <Route path="/app" component={Page} />
+            <Route path="/app" component={Page} keepalive={true} />
         </Router>
     )
 }
@@ -20,7 +20,7 @@ function Page() {
             <h1>Hello, World! (Page2) {location.relPath}</h1>
             <button onClick={() => setCount(count + 1)}>Count {count}</button>
             <Router>
-                <Route path="/sub1" element={<>sub1</>} />
+                <Route path="/sub1" element={<>sub1</>} default />
                 <Route path="/sub2" element={<>sub2</>} />
             </Router>
         </div>

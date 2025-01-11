@@ -1,4 +1,4 @@
-import { createContext, ReactElement, useRef } from "react";
+import { createContext, ReactElement, useRef, useState } from "react";
 import { RouterContext } from "../modules/router_context";
 import { RouteProperties } from "../widgets/Route";
 import { LocationUtil } from "../utils/location";
@@ -47,6 +47,7 @@ export function Router({location, children}: RouterProperties) {
     const storage = useRef(new Map<string, {context: RouterContext}>());
     const context = useLocation();
     const element = Array.isArray(children) ? children : [children];
+    const [count, setState] = useState(0);
 
     let passedRoute = element.find(e => {
         return (LocationUtil.arrayOf(e.props.path)[0] == context.first && location == null)
@@ -83,7 +84,10 @@ export function Router({location, children}: RouterProperties) {
 
                 return (
                     <_RouterContext.Provider key={path} value={state.context.clone}>
-                        <RouteSliver active={isCurrent} first={index == 0} route={route} />
+                        <RouteSliver active={isCurrent} first={index == 0} route={route} onDispose={props => {
+                            storage.current.delete(props.path);
+                            setState(count + 1);
+                        }} />
                     </_RouterContext.Provider>
                 )
             })

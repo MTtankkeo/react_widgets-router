@@ -1,14 +1,19 @@
 import { ReactElement, useLayoutEffect, useRef } from "react";
 import { RouteProperties } from "./Route";
+import { RouterProperties } from "./Router";
+
+/** Signature for the function that is called when a sliver disposed. */
+export type RouteSliverDisposeCallback = (props: RouteProperties) => void;
 
 /** 
  * A component that manages the rendering of a route based on its active state. 
  * It handles animations for transitioning between routes.
  */
-export function RouteSliver({route, active, first}: {
+export function RouteSliver({route, active, first, onDispose}: {
     active: boolean;
     first: boolean;
     route?: ReactElement<RouteProperties>;
+    onDispose: RouteSliverDisposeCallback;
 }) {
     const activeRef = useRef<boolean>(active);
     const sliverRef = useRef<HTMLDivElement>(null);
@@ -17,6 +22,16 @@ export function RouteSliver({route, active, first}: {
     const RenderComponent = route?.props.component;
     const RenderElement = route?.props.element;
     const Render = RenderElement ?? (RenderComponent ? <RenderComponent /> : <></>);
+    const isKeepAlive = route?.props.keepalive ?? true;
+
+    const onCheckout = () => {
+        sliverRef.current!.style.display = "none";
+
+        if (route && !isKeepAlive) {
+            console.log("dispose");
+            onDispose(route.props);
+        }
+    }
 
     useLayoutEffect(() => {
         const sliver = sliverRef.current;
@@ -49,11 +64,11 @@ export function RouteSliver({route, active, first}: {
                 // Starts fade-out animation effect of a route sliver.
                 if (fadeoutKeyframe) {
                     sliver.style.animation = `${fadeoutKeyframe} ${fadeoutDuration || "0.3s"}`;
-                    sliver.onanimationend = () => sliver.style.display = "none";
+                    sliver.onanimationend = onCheckout;
                     return;
                 }
 
-                sliver.style.display = "none";
+                onCheckout();
             }
         }
 

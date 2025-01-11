@@ -3,7 +3,7 @@
   "description": "This package is a router that provides transition animations and fully preserves the state of previous elements, offering an experience close to a Web standard API.",
   "repository": "https://github.com/react-widgets/react_widgets-router",
   "bugs": "https://github.com/react-widgets/react_widgets-router/issues",
-  "version": "1.0.0-beta4",
+  "version": "1.0.0-beta5",
   "author": "Dev Ttangkong",
   "license": "MIT",
   "main": "./dist/index.umd.js",
