@@ -81,7 +81,8 @@ export function Router({location, keepAlive, children}: RouterProperties) {
 
                 // A component corresponds to a given path.
                 const route = element.find((e) => e.props.path == path);
-                
+
+                // Called when must be disposing a route sliver component.
                 const onDispose = (props: RouteProperties) => {
                     storage.current.delete(props.path);
                     setState(count + 1);
