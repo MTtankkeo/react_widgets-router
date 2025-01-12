@@ -36,4 +36,4 @@ export interface RouterProperties {
  * )
  * ```
  */
-export declare function Router({ location, children }: RouterProperties): import("react/jsx-runtime").JSX.Element;
+export declare function Router({ location, keepAlive, children }: RouterProperties): import("react/jsx-runtime").JSX.Element;

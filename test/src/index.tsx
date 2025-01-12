@@ -4,9 +4,9 @@ import { useState } from "react";
 
 function Root() {
     return (
-        <Router>
+        <Router keepAlive={false}>
             <Route path="/"    element={<button onClick={() => RouterBinding.instance.push("/app")}>Root</button>} />
-            <Route path="/app" component={Page} keepalive={true} />
+            <Route path="/app" component={Page} />
         </Router>
     )
 }

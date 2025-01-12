@@ -42,7 +42,7 @@ export interface RouterProperties {
  * )
  * ```
  */
-export function Router({location, children}: RouterProperties) {
+export function Router({location, keepAlive, children}: RouterProperties) {
     // This values defines previously and currently rendered relative path of a component.
     const storage = useRef(new Map<string, {context: RouterContext}>());
     const context = useLocation();
@@ -81,13 +81,15 @@ export function Router({location, children}: RouterProperties) {
 
                 // A component corresponds to a given path.
                 const route = element.find((e) => e.props.path == path);
+                
+                const onDispose = (props: RouteProperties) => {
+                    storage.current.delete(props.path);
+                    setState(count + 1);
+                }
 
                 return (
                     <_RouterContext.Provider key={path} value={state.context.clone}>
-                        <RouteSliver active={isCurrent} first={index == 0} route={route} onDispose={props => {
-                            storage.current.delete(props.path);
-                            setState(count + 1);
-                        }} />
+                        <RouteSliver active={isCurrent} first={index == 0} route={route} keepAlive={keepAlive} onDispose={onDispose} />
                     </_RouterContext.Provider>
                 )
             })

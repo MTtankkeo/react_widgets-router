@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { _RouterContext } from "../widgets/Router";
 import { RouterContext } from "../modules/router_context";
 import { RouterBinding } from "../modules/router_binding";
@@ -15,7 +15,14 @@ export function useLocation() {
         const [location, setLocation] = useState(window.location.pathname);
 
         context = new RouterContext(location);
-        binding.addListener(setLocation);
+
+        useEffect(() => {
+            // Called when the window location path changes.
+            binding.addListener(setLocation);
+
+            // Called when must be disposing the old listener.
+            return () => binding.removeListener(setLocation);
+        }, []);
     }
 
     return context.clone;

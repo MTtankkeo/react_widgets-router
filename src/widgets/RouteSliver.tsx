@@ -9,9 +9,10 @@ export type RouteSliverDisposeCallback = (props: RouteProperties) => void;
  * A component that manages the rendering of a route based on its active state. 
  * It handles animations for transitioning between routes.
  */
-export function RouteSliver({route, active, first, onDispose}: {
+export function RouteSliver({route, active, keepAlive, first, onDispose}: {
     active: boolean;
     first: boolean;
+    keepAlive?: boolean;
     route?: ReactElement<RouteProperties>;
     onDispose: RouteSliverDisposeCallback;
 }) {
@@ -22,13 +23,12 @@ export function RouteSliver({route, active, first, onDispose}: {
     const RenderComponent = route?.props.component;
     const RenderElement = route?.props.element;
     const Render = RenderElement ?? (RenderComponent ? <RenderComponent /> : <></>);
-    const isKeepAlive = route?.props.keepalive ?? true;
+    const isKeepAlive = route?.props.keepalive ?? (keepAlive ?? true);
 
     const onCheckout = () => {
         sliverRef.current!.style.display = "none";
 
         if (route && !isKeepAlive) {
-            console.log("dispose");
             onDispose(route.props);
         }
     }

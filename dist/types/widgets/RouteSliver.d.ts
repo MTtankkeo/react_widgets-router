@@ -6,9 +6,10 @@ export type RouteSliverDisposeCallback = (props: RouteProperties) => void;
  * A component that manages the rendering of a route based on its active state.
  * It handles animations for transitioning between routes.
  */
-export declare function RouteSliver({ route, active, first, onDispose }: {
+export declare function RouteSliver({ route, active, keepAlive, first, onDispose }: {
     active: boolean;
     first: boolean;
+    keepAlive?: boolean;
     route?: ReactElement<RouteProperties>;
     onDispose: RouteSliverDisposeCallback;
 }): import("react/jsx-runtime").JSX.Element;
